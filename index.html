@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+{% load static %}
+<html ng-app="app" ng-controller="homeController" lang="en">
+<head>
+  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contacts</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="{% static '/app/styles.css' %}">
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="jumbotron">
+        <div class="row">
+          <div class="col-md-12">
+            <img class="center-block img-responsive" src="https://static.pexels.com/photos/355465/pexels-photo-355465.jpeg">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div ng-hide="addContact" class="input-group">
+            <span class="input-group-addon">Filter Contacts</span>
+            <input type="text" id="user-input" ng-model="userSearch" class="form-control">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="input-group">
+            <span class="input-class-btn">
+              <button class="btn btn-default" ng-click="handleAddContact()" type="button">Add Contact</button>
+            </span>
+            <span class="input-class-btn">
+              <button class="btn btn-danger btn-sm" ng-show="deleteSelected" ng-click="handleDelete()">DELETE</button>
+            </span>
+          </div>
+        </div>
+        <div class="row" ng-show="addContact">
+          <form class="form-horizontal" ng-submit="handlePostContact()">
+            <div class="form-group">
+              <label class="control-label col-sm-2" for="name">Name:</label>
+              <div class="col-sm-4 offset-sm-4">
+                <input class="form-control" ng-model="newContact.name" placeholder="Enter Name">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-sm-2" for="phone_number">Phone:</label>
+              <div class="col-sm-4 offset-sm-4">
+                <input class="form-control" ng-model="newContact.phone_number" placeholder="Enter Phone e.g. +12128993154">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-sm-2" for="imageUrl">Image URL</label>
+              <div class="col-sm-4 offset-sm-4">
+                <input class="form-control" ng-model="newContact.imageUrl" placeholder="Enter Image URL">
+              </div>
+            </div>            
+            <div class="col-md-6">
+            <button style="text-align: right; float: right" class="btn btn-default" type="submit">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <br>   
+    <div class="row">  
+      <div class="col-md-4 col-sm-6 panel panel-default" ng-show="contacts.length" ng-repeat="contact in contacts | filter:userSearch">
+        <div class="row contactCard" ng-click="handleClick(this)" ng-class="{selected: deleteContacts.includes(this.contact)}">
+          <div class='col-md-4'>
+            <img class="img-rounded img-responsive avatar" ng-src="{[{ contact.imageUrl }]}">
+          </div>
+          <div class="col-md-8">
+          <br>
+            <p align='center'>{[{ contact.name }]}</p>
+            <p align='center'>{[{ contact.phone_number }]}</p>
+          </div>
+        </div>
+      </div>
+      </div>
+  </div>
+
+  <script src="{% static '/angular/angular.js' %}"></script>
+  <script src="{% static '/angular-route/angular-route.js' %}"></script>
+  <script src="{% static '/app/app.js' %}"></script>
+</body>
+</html>
